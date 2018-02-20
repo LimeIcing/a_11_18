@@ -1,5 +1,7 @@
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class Main18 {
 
@@ -22,17 +24,28 @@ public class Main18 {
         a.put("56","Ed");
         a.put("3","Marty");
         a.put("29","Ed");
-        HashMap<String, String> b = new HashMap<>(reverse(a));
+        HashMap<String, Object> b = new HashMap<>(reverse(a));
         System.out.println(b);
     }
 
-    public static Map<String, String> reverse(Map<String, String> map) {
-        HashMap<String, String> returnMap = new HashMap<>();
+    public static Map<String, Set<String>> reverse(Map<String, String> map) {
+        HashMap<String, Set<String>> returnMap = new HashMap<>();
 
-        for (Map.Entry<String, String> entry:map.entrySet()) {
-            returnMap.put(entry.getValue(), entry.getKey());
+        for (Map.Entry<String, String> e0:map.entrySet()) {
+            if (!returnMap.containsKey(e0.getValue())) {
+                String newKey = e0.getValue();
+                Set<String> vSet = new HashSet<>();
+                for (Map.Entry<String, String> e1 : map.entrySet()) {
+                    if (e1.getValue().equals(newKey)) {
+                        vSet.add(e1.getKey());
+                    }
+                }
+                returnMap.put(newKey, vSet);
+            }
         }
 
         return returnMap;
     }
+
+
 }
